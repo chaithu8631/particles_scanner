@@ -12,7 +12,7 @@ const scannerHeight = screenHeight;
 let reverseDirection = false;
 let color = r.WHITE;
 
-const startRangeX = 100;
+const startRangeX = 50;
 const particleWidth = 50;
 const particleHeight = screenHeight;
 
