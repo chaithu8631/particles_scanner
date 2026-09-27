@@ -12,17 +12,22 @@ const scannerHeight = screenHeight;
 let reverseDirection = false;
 let color = r.WHITE;
 
-const startRangeX = 50;
-const particleWidth = 50;
+const particle1startRangeX = 100;
+const particle1Width = 50;
+
 const particleHeight = screenHeight;
 
+const particle2startRangeX = 200;
+const particle2Width = 5;
 
 function running() {
     return !r.WindowShouldClose();
 }
 
 function drawParticles() {
-    r.DrawRectangle(startRangeX, startY, particleWidth, particleHeight, r.BLUE);
+    r.DrawRectangle(particle1startRangeX, startY, particle1Width, particleHeight, r.BLUE);
+    r.DrawRectangle(particle2startRangeX, startY, particle2Width, particleHeight, r.BLUE);
+
 }
 
 function setup() {
@@ -36,18 +41,20 @@ function update() {
     if (reverseDirection) {
         startX = startX - 1;
 
-        color = (startX <= startRangeX + particleWidth ) && (startX + scannerWidth > startRangeX ) ? r.RED : r.WHITE;
+        color = ((startX <= particle1startRangeX + particle1Width) && (startX + scannerWidth > particle1startRangeX)) || ((startX <= particle2startRangeX + particle2Width) && (startX + scannerWidth > particle2startRangeX)) ? r.RED : r.WHITE;
 
-        
+
         if (startX === 0)
             reverseDirection = false;
+
     } else {
         startX = startX + 1;
 
-        color = (startX + scannerWidth >= startRangeX ) && (startX < startRangeX + particleWidth ) ? r.RED : r.WHITE;
+        color = ((startX + scannerWidth >= particle1startRangeX) && (startX < particle1startRangeX + particle1Width)) || ((startX + scannerWidth >= particle2startRangeX) && (startX < particle2startRangeX + particle2Width)) ? r.RED : r.WHITE;
 
         if (startX + scannerWidth === screenWidth)
             reverseDirection = true;
+
     }
 
 }
