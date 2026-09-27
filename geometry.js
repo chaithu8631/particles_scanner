@@ -1,9 +1,9 @@
 const r = require("raylib");
 
-function updatePosition(currentPosition, size, speed, direction, startBoundary, endBoundary) {
-    const updatePosition = currentPosition + size + speed * direction;
+function updatePosition(currentPosition, size, speed, startBoundary, endBoundary) {
+    const updatePosition = currentPosition + size + speed ;
 
-    if (direction === 1) {
+    if (speed > 0) {
         return updatePosition > endBoundary ? endBoundary - size : updatePosition - size;
     }
     return startBoundary > updatePosition ? startBoundary : updatePosition - size;
@@ -16,12 +16,12 @@ function scanParticle(scannerPosition, scannerSize, particlePosition, particleSi
     return scannerPosition <= particleEnd && scannerEnd > particlePosition;
 }
 
-function decideDirection(scannerPosition, scannerSize, startBoundary, endBoundary, movement) {
+function decideDirection(scannerPosition, scannerSize, startBoundary, endBoundary, speed) {
     if (scannerPosition === startBoundary)
-        return 1;
+       return -speed;
     if (scannerPosition + scannerSize === endBoundary)
-        return -1;
-    return movement;
+        return -speed;
+    return speed;
 }
 
 module.exports = {
