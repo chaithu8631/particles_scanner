@@ -36,7 +36,7 @@ function update() {
     if (reverseDirection) {
         startX = startX - 1;
 
-        color = (startX <= startRangeX + particleWidth) && (startX + scannerWidth > startRangeX ) ? r.RED : r.WHITE;
+        color = (startX <= startRangeX + particleWidth ) && (startX + scannerWidth > startRangeX ) ? r.RED : r.WHITE;
 
         
         if (startX === 0)
@@ -44,7 +44,7 @@ function update() {
     } else {
         startX = startX + 1;
 
-        color = (startX + scannerWidth >= startRangeX) && (startX < startRangeX + particleWidth ) ? r.RED : r.WHITE;
+        color = (startX + scannerWidth >= startRangeX ) && (startX < startRangeX + particleWidth ) ? r.RED : r.WHITE;
 
         if (startX + scannerWidth === screenWidth)
             reverseDirection = true;
