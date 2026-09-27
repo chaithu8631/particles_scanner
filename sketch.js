@@ -46,6 +46,7 @@ function update() {
 function draw() {
     r.BeginDrawing();
     r.ClearBackground(r.BLACK);
+
     drawParticles();
     r.DrawRectangle(startX, startY, scannerWidth, scannerHeight, r.WHITE);
 
