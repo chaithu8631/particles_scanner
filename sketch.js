@@ -1,62 +1,77 @@
 const r = require("raylib");
+const g = require("./geometry");
 
 const screenWidth = 300;
 const screenHeight = 200;
-const FPS = 60;
+const title = "particles scanner";
+const halfScreen = screenWidth / 2;
+const FPS = 50;
 
 const startY = 0;
 
-let startX = 0;
-const scannerWidth = 20;
-const scannerHeight = screenHeight;
-let reverseDirection = false;
-let color = r.WHITE;
+const scanner1StartBoundary = 0;
+const scanner1EndBoundary = halfScreen;
+let scanner1Position = scanner1StartBoundary;
+const scanner1Size = 15;
+const scanner1Speed = 1;
+let scanner1Direction = 1;
+let scanner1Color = r.WHITE;
 
-const particle1startRangeX = 100;
-const particle1Width = 50;
+const scanner2StartBoundary = halfScreen;
+const scanner2EndBoundary = screenWidth;
+let scanner2Position = scanner2StartBoundary;
+const scanner2Size = 30;
+const scanner2Speed = 2;
+let scanner2Direction = 1;
+let scanner2Color = r.WHITE;
 
-const particleHeight = screenHeight;
+const particle1Position = 80;
+const particle1Size = 50;
 
-const particle2startRangeX = 200;
-const particle2Width = 5;
+const particle2Position = 170;
+const particle2Size = 50;
 
 function running() {
     return !r.WindowShouldClose();
 }
 
-function drawParticles() {
-    r.DrawRectangle(particle1startRangeX, startY, particle1Width, particleHeight, r.BLUE);
-    r.DrawRectangle(particle2startRangeX, startY, particle2Width, particleHeight, r.BLUE);
-
-}
-
 function setup() {
-    r.InitWindow(screenWidth, screenHeight, "Paricles Scanner");
+    r.InitWindow(screenWidth, screenHeight, title);
     r.SetTargetFPS(FPS);
 }
 
+function drawParticles() {
+    r.DrawRectangle(particle1Position, startY, particle1Size, screenHeight, r.BLUE);
+    r.DrawRectangle(particle2Position, startY, particle2Size, screenHeight, r.BLUE);
+}
+
+function drawScanners() {
+    r.DrawRectangle(scanner1Position, startY, scanner1Size, screenHeight, scanner1Color);
+    r.DrawRectangle(scanner2Position, startY, scanner2Size, screenHeight, scanner2Color);
+}
+
+function decideColor(scannerPosition, scannerSize) {
+    const scanParticle1 = g.scanParticle(scannerPosition, scannerSize, particle1Position, particle1Size);
+    const scanParticle2 = g.scanParticle(scannerPosition, scannerSize, particle2Position, particle2Size);
+
+    return scanParticle1 || scanParticle2 ? r.RED : r.WHITE;
+}
+
+function scanner1Update() {
+    scanner1Position = g.updatePosition(scanner1Position, scanner1Size, scanner1Speed, scanner1Direction, scanner1StartBoundary, scanner1EndBoundary);
+    scanner1Color = decideColor(scanner1Position, scanner1Size);
+    scanner1Direction = g.decideDirection(scanner1Position, scanner1Size, scanner1StartBoundary, scanner1EndBoundary, scanner1Direction);
+}
+
+function scanner2Update() {
+    scanner2Position = g.updatePosition(scanner2Position, scanner2Size, scanner2Speed, scanner2Direction, scanner2StartBoundary, scanner2EndBoundary)
+    scanner2Color = decideColor(scanner2Position, scanner2Size);
+    scanner2Direction = g.decideDirection(scanner2Position, scanner2Size, scanner2StartBoundary, scanner2EndBoundary, scanner2Direction);
+}
+
 function update() {
-    //startX = direction ? startX + 1 : startX -1;
-
-    if (reverseDirection) {
-        startX = startX - 1;
-
-        color = ((startX <= particle1startRangeX + particle1Width) && (startX + scannerWidth > particle1startRangeX)) || ((startX <= particle2startRangeX + particle2Width) && (startX + scannerWidth > particle2startRangeX)) ? r.RED : r.WHITE;
-
-
-        if (startX === 0)
-            reverseDirection = false;
-
-    } else {
-        startX = startX + 1;
-
-        color = ((startX + scannerWidth >= particle1startRangeX) && (startX < particle1startRangeX + particle1Width)) || ((startX + scannerWidth >= particle2startRangeX) && (startX < particle2startRangeX + particle2Width)) ? r.RED : r.WHITE;
-
-        if (startX + scannerWidth === screenWidth)
-            reverseDirection = true;
-
-    }
-
+    scanner1Update();
+    scanner2Update();
 }
 
 function draw() {
@@ -64,7 +79,7 @@ function draw() {
     r.ClearBackground(r.BLACK);
 
     drawParticles();
-    r.DrawRectangle(startX, startY, scannerWidth, scannerHeight, color);
+    drawScanners();
 
     r.EndDrawing();
 }
