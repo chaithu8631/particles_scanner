@@ -1,9 +1,9 @@
 const r = require("raylib");
 
-function updatePosition(currentPosition, size, speed, movement, startBoundary, endBoundary) {
-    const updatePosition = currentPosition + size + speed * movement;
+function updatePosition(currentPosition, size, speed, direction, startBoundary, endBoundary) {
+    const updatePosition = currentPosition + size + speed * direction;
 
-    if (movement === 1) {
+    if (direction === 1) {
         return updatePosition > endBoundary ? endBoundary - size : updatePosition - size;
     }
     return startBoundary > updatePosition ? startBoundary : updatePosition - size;
