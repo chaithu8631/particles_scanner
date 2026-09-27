@@ -14,6 +14,15 @@ function running() {
     return !r.WindowShouldClose();
 }
 
+function drawParticles() {
+    const startRangeX = 100;
+    const startRangeY = 0;
+    const particleWidth = 50;
+    const particleHeight = screenHeight;
+
+    r.DrawRectangle(startRangeX, startRangeY, particleWidth, particleHeight, r.BLUE);
+}
+
 function setup() {
     r.InitWindow(screenWidth, screenHeight, "Paricles Scanner");
     r.SetTargetFPS(FPS);
@@ -37,7 +46,7 @@ function update() {
 function draw() {
     r.BeginDrawing();
     r.ClearBackground(r.BLACK);
-
+    drawParticles();
     r.DrawRectangle(startX, startY, scannerWidth, scannerHeight, r.WHITE);
 
     r.EndDrawing();
