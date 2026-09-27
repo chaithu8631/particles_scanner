@@ -3,9 +3,7 @@ const g = require("./geometry");
 
 const screenWidth = 300;
 const screenHeight = 200;
-const title = "particles scanner";
 const halfScreen = screenWidth / 2;
-const FPS = 50;
 
 const topPoint = 0;
 const leftPoint = 0;
@@ -49,6 +47,9 @@ const particle3Position = 80;
 const particle3Size = 50;
 
 function setup() {
+    const title = "particles scanner";
+    const FPS = 50;
+
     r.InitWindow(screenWidth, screenHeight, title);
     r.SetTargetFPS(FPS);
 }
