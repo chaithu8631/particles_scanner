@@ -7,7 +7,7 @@ const title = "particles scanner";
 const halfScreen = screenWidth / 2;
 const FPS = 50;
 
-const startY = 0;
+const topPoint = 0;
 
 const scanner1StartBoundary = 0;
 const scanner1EndBoundary = halfScreen;
@@ -31,23 +31,23 @@ const particle1Size = 50;
 const particle2Position = 170;
 const particle2Size = 50;
 
-function running() {
-    return !r.WindowShouldClose();
-}
-
 function setup() {
     r.InitWindow(screenWidth, screenHeight, title);
     r.SetTargetFPS(FPS);
 }
 
+function running() {
+    return !r.WindowShouldClose();
+}
+
 function drawParticles() {
-    r.DrawRectangle(particle1Position, startY, particle1Size, screenHeight, r.BLUE);
-    r.DrawRectangle(particle2Position, startY, particle2Size, screenHeight, r.BLUE);
+    r.DrawRectangle(particle1Position, topPoint, particle1Size, screenHeight, r.BLUE);
+    r.DrawRectangle(particle2Position, topPoint, particle2Size, screenHeight, r.BLUE);
 }
 
 function drawScanners() {
-    r.DrawRectangle(scanner1Position, startY, scanner1Size, screenHeight, scanner1Color);
-    r.DrawRectangle(scanner2Position, startY, scanner2Size, screenHeight, scanner2Color);
+    r.DrawRectangle(scanner1Position, topPoint, scanner1Size, screenHeight, scanner1Color);
+    r.DrawRectangle(scanner2Position, topPoint, scanner2Size, screenHeight, scanner2Color);
 }
 
 function decideColor(scannerPosition, scannerSize) {
