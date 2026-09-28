@@ -1,13 +1,10 @@
 const r = require("raylib");
 const g = require("./geometry");
+const w = require("./window");
 
 const d1 = require("./d1");
 const d2 = require("./d2");
 const d3 = require("./d3");
-
-const screenWidth = 300;
-const screenHeight = 200;
-const halfScreen = screenWidth / 2;
 
 const particle1Position = 80;
 const particle1Width = 20;
@@ -18,11 +15,7 @@ const particle2Width = 20;
 const particle3Position = 100;
 const particle3Width = 20;
 
-d2.position = halfScreen;
-
-function setup() {
-    const title = "particles detector";
-    const FPS = 60;
+function setup(screenWidth, screenHeight, title, FPS) {
     r.SetTraceLogLevel(r.LOG_NONE);
     r.InitWindow(screenWidth, screenHeight, title);
     r.SetTargetFPS(FPS);
@@ -44,36 +37,36 @@ function scanVertically(detectorPosition, detectorSize) {
 }
 
 function scanHorizontally(detectorPosition, detectorSize) {
-        const scanParticle1 = g.detectParticle(
-            detectorPosition,
-            detectorSize,
-            particle1Position,
-            particle1Width,
-        );
-        const scanParticle2 = g.detectParticle(
-            detectorPosition,
-            detectorSize,
-            particle2Position,
-            particle2Width,
-        );
-        return scanParticle1 || scanParticle2 ? r.RED : r.WHITE;
+    const scanParticle1 = g.detectParticle(
+        detectorPosition,
+        detectorSize,
+        particle1Position,
+        particle1Width,
+    );
+    const scanParticle2 = g.detectParticle(
+        detectorPosition,
+        detectorSize,
+        particle2Position,
+        particle2Width,
+    );
+    return scanParticle1 || scanParticle2 ? r.RED : r.WHITE;
 }
 
-function updateDetector(d, lowerBoundary, upperBoundary) {
+function updateDetector(d) {
     d.position = g.updatePosition(d.position, d.velocity);
     d.velocity = g.deriveVelocity(
         d.position,
         d.width,
-        lowerBoundary,
-        upperBoundary,
+        d.lowerBoundary,
+        d.upperBoundary,
         d.velocity,
     );
 }
 
 function update() {
-    updateDetector(d1, 0, halfScreen);
-    updateDetector(d2, halfScreen, screenWidth);
-    updateDetector(d3, 0, screenHeight);
+    updateDetector(d1);
+    updateDetector(d2);
+    updateDetector(d3);
     d1.color = scanHorizontally(d1.position, d1.width);
     d2.color = scanHorizontally(d2.position, d2.width);
     d3.color = scanVertically(d3.position, d3.width);

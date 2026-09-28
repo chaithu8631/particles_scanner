@@ -1,4 +1,5 @@
 const sketch = require("./sketch");
+const w = require("./window");
 
 function loop() {
   while (sketch.running()) {
@@ -8,7 +9,7 @@ function loop() {
 }
 
 function main() {
-  sketch.setup();
+  sketch.setup(w.screenWidth, w.screenHeight, w.title, w.FPS);
   loop();
   sketch.teardown();
 }
