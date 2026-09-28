@@ -6,13 +6,13 @@ const d1 = require("./d1");
 const d2 = require("./d2");
 const d3 = require("./d3");
 
-const particle1Position = 80;
+const particle1Position = 140;
 const particle1Width = 20;
 
-const particle2Position = 240;
+const particle2Position = 440;
 const particle2Width = 20;
 
-const particle3Position = 100;
+const particle3Position = 190;
 const particle3Width = 20;
 
 function setup(screenWidth, screenHeight, title, FPS) {
