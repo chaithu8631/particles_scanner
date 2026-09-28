@@ -1,6 +1,5 @@
 const r = require("raylib");
 const g = require("./geometry");
-const w = require("./window");
 
 const d1 = require("./d1");
 const d2 = require("./d2");
