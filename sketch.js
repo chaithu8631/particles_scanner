@@ -32,8 +32,19 @@ function running() {
     return !r.WindowShouldClose();
 }
 
-function deriveColor(detectorPosition, detectorSize, horizontalBehaviour) {
-    if (horizontalBehaviour === true) {
+function scanVertically(detectorPosition, detectorSize) {
+    return g.detectParticle(
+        detectorPosition,
+        detectorSize,
+        particle3Position,
+        particle3Width,
+    )
+        ? r.RED
+        : r.WHITE;
+}
+
+function scanHorizontally(detectorPosition, detectorSize) {
+    {
         const scanParticle1 = g.detectParticle(
             detectorPosition,
             detectorSize,
@@ -48,19 +59,10 @@ function deriveColor(detectorPosition, detectorSize, horizontalBehaviour) {
         );
         return scanParticle1 || scanParticle2 ? r.RED : r.WHITE;
     }
-    return g.detectParticle(
-        detectorPosition,
-        detectorSize,
-        particle3Position,
-        particle3Width,
-    )
-        ? r.RED
-        : r.WHITE;
 }
 
 function updateDetector(d, lowerBoundary, upperBoundary) {
     d.position = g.updatePosition(d.position, d.velocity);
-    d.color = deriveColor(d.position, d.width, d.horizontalBehaviour);
     d.velocity = g.deriveVelocity(
         d.position,
         d.width,
@@ -74,6 +76,9 @@ function update() {
     updateDetector(d1, 0, halfScreen);
     updateDetector(d2, halfScreen, screenWidth);
     updateDetector(d3, 0, screenHeight);
+    d1.color = scanHorizontally(d1.position, d1.width);
+    d2.color = scanHorizontally(d2.position, d2.width);
+    d3.color = scanVertically(d3.position, d3.width);
 }
 
 function draw() {
