@@ -44,7 +44,6 @@ function scanVertically(detectorPosition, detectorSize) {
 }
 
 function scanHorizontally(detectorPosition, detectorSize) {
-    {
         const scanParticle1 = g.detectParticle(
             detectorPosition,
             detectorSize,
@@ -58,7 +57,6 @@ function scanHorizontally(detectorPosition, detectorSize) {
             particle2Width,
         );
         return scanParticle1 || scanParticle2 ? r.RED : r.WHITE;
-    }
 }
 
 function updateDetector(d, lowerBoundary, upperBoundary) {
