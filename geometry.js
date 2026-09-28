@@ -1,31 +1,46 @@
 const r = require("raylib");
 
-function updatePosition(currentPosition, size, speed, startBoundary, endBoundary) {
-    const updatePosition = currentPosition + size + speed ;
-
-    if (speed > 0) {
-        return updatePosition > endBoundary ? endBoundary - size : updatePosition - size;
-    }
-    return startBoundary > updatePosition ? startBoundary : updatePosition - size;
+function updatePosition(currentPosition, velocity) {
+    return currentPosition + velocity;
 }
 
-function scanParticle(scannerPosition, scannerSize, particlePosition, particleSize) {
-    const particleEnd = particlePosition + particleSize;
-    const scannerEnd = scannerPosition + scannerSize;
+function detectParticle(
+    detectorPosition,
+    detectorWidth,
+    particlePosition,
+    particleWidth,
+) {
+    const particleEnd = particlePosition + particleWidth;
+    const detectorEnd = detectorPosition + detectorWidth;
 
-    return scannerPosition <= particleEnd && scannerEnd > particlePosition;
+    return detectorPosition <= particleEnd && detectorEnd > particlePosition;
 }
 
-function decideDirection(scannerPosition, scannerSize, startBoundary, endBoundary, speed) {
-    if (scannerPosition === startBoundary)
-       return -speed;
-    if (scannerPosition + scannerSize === endBoundary)
-        return -speed;
-    return speed;
+function deriveVelocity(
+    detectorPosition,
+    detectorWidth,
+    startBoundary,
+    endBoundary,
+    velocity,
+) {
+    const detectorEnd = detectorPosition + detectorWidth;
+    return detectorPosition === startBoundary || detectorEnd === endBoundary
+        ? -velocity
+        : velocity;
+}
+
+function drawHorizontally(startPosition, width, color) {
+    r.DrawRectangle(startPosition, 0, width, r.GetScreenHeight(), color);
+}
+
+function drawVertically(startPosition, height, color) {
+    r.DrawRectangle(0, startPosition, r.GetScreenWidth(), height, color);
 }
 
 module.exports = {
     updatePosition,
-    scanParticle,
-    decideDirection,
+    detectParticle,
+    deriveVelocity,
+    drawHorizontally,
+    drawVertically,
 };
